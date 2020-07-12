@@ -1,17 +1,20 @@
-function initialize() {
-    const config = {
-        apiKey: "AIzaSyCAD-xlFxEMLFt8ivt5Mn2ejezLNKQeGdc",
-        authDomain: "av8-flight-tracker.firebaseapp.com",
-        projectId: "av8-flight-tracker",
-        databaseURL: "https://av8-flight-tracker.firebaseio.com",
-    };
+// Initialise Firebase
+var firebaseConfig = {
+    apiKey: "AIzaSyCAD-xlFxEMLFt8ivt5Mn2ejezLNKQeGdc",
+    authDomain: "av8-flight-tracker.firebaseapp.com",
+    databaseURL: "https://av8-flight-tracker.firebaseio.com",
+    projectId: "av8-flight-tracker",
+    storageBucket: "av8-flight-tracker.appspot.com",
+    messagingSenderId: "972073264472",
+    appId: "1:972073264472:web:a102b3538d6e293a13f12d",
+    measurementId: "G-K0FWXQSWLW"
+};
 
-    firebase.initializeApp(config);
-    firebase.analytics();
-    const functions = firebase.functions();
-}
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+var functions = firebase.functions();
 
-let mMap;
+var mMap;
 
 function initMap(listener) {
     const dublinAirport = { lat: 53.427, lng: -6.244 }
