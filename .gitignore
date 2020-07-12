@@ -1,3 +1,4 @@
 .idea/
 .firebase/
 node_modules/
+functions/*

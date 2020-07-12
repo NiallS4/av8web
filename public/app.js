@@ -1,4 +1,18 @@
-var mMap;
+function initialize() {
+    const config = {
+        apiKey: "AIzaSyCAD-xlFxEMLFt8ivt5Mn2ejezLNKQeGdc",
+        authDomain: "av8-flight-tracker.firebaseapp.com",
+        projectId: "av8-flight-tracker",
+        databaseURL: "https://av8-flight-tracker.firebaseio.com",
+    };
+
+    firebase.initializeApp(config);
+    firebase.analytics();
+    const functions = firebase.functions();
+}
+
+let mMap;
+
 function initMap(listener) {
     const dublinAirport = { lat: 53.427, lng: -6.244 }
     mMap = new google.maps.Map(document.getElementById("map"), {
@@ -6,20 +20,20 @@ function initMap(listener) {
         zoom: 10
     });
 
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
         position: dublinAirport,
         title: "Dublin Airport"
     });
     marker.setMap(mMap);
 
-    var contentString = '<div id="infobox">'+
+    let contentString = '<div id="infobox">'+
         '<h1 id="firstHeading" class="firstHeading">Dublin Airport</h1>'+
         '<div id="infoboxContent">'+
         '<p>Dublin Airport | DUB | EIDW</p>'+
         '</div>'+
         '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
+    let infowindow = new google.maps.InfoWindow({
         content: contentString
     });
 
@@ -32,7 +46,7 @@ function initMap(listener) {
 function addMarker(aircraft) {
     let loc = { lat: parseFloat(aircraft.lat), lng: parseFloat(aircraft.lon) };
 
-    var planeIcon = {
+    const planeIcon = {
         path: "M190 418 c0 -7 7 -22 15 -32 12 -16 22 -86 13 -86 -2 0 -32 9 -68 20\n" +
             "-118 36 -120 23 -10 -57 l80 -58 0 -55 c0 -35 6 -64 15 -76 15 -19 15 -19 30\n" +
             "0 9 12 15 41 15 76 l0 55 80 58 c110 80 108 93 -10 57 -36 -11 -66 -20 -67\n" +
@@ -46,7 +60,6 @@ function addMarker(aircraft) {
         rotation: parseFloat(aircraft.trak)
     }
 
-    const image = 'images/plane.png';
     let marker = new google.maps.Marker({
         position: loc,
         icon: planeIcon
@@ -62,7 +75,7 @@ function addMarker(aircraft) {
         '<div id="type">' + '<b>Aircraft:</b> ' + aircraft.type + '</div>' +
         '<div id="country">' + '<b>Country:</b> ' + aircraft.cou + '</div>';
 
-    var infowindow = new google.maps.InfoWindow({
+    let infowindow = new google.maps.InfoWindow({
         content: contentString
     });
 
@@ -76,26 +89,16 @@ function addMarker(aircraft) {
 }
 
 function getAircraft() {
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://adsbexchange-com1.p.rapidapi.com/json/lat/53.427/lon/-6.244/dist/100/",
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "adsbexchange-com1.p.rapidapi.com",
-            "x-rapidapi-key": "a7f5ea86famsh90c76e420e25c01p1a76d4jsne9b1f2e24284"
-        }
-    }
-
-    $.ajax(settings).done(function (response, status, jqXHR) {
-        console.log(response);
-        // document.getElementById("para").innerHTML = JSON.stringify(response);
+    const apiCall = firebase.functions().httpsCallable('apiCall');
+    apiCall({latitude: "53.427", longitude: "-6.244", dist: "100"}).then(function(result) {
+        // Read result of the Cloud Function.
+        let response = result.data;
 
         let aircraft = response.ac;
         for(let i=0; i < aircraft.length; i++) {
+            console.log(aircraft[i])
             addMarker(aircraft[i]);
         }
-
     });
 }
 
