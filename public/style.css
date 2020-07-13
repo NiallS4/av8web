@@ -4,6 +4,10 @@
     height: 100%;
 }
 
+.infobox {
+    font-size: 16px;
+}
+
 #test {
     word-wrap: break-word;
     margin: 2%;

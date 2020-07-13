@@ -68,7 +68,8 @@ function addMarker(aircraft) {
         icon: planeIcon
     });
 
-    var contentString = '<div id="latitude">' + '<b>Latitude:</b> ' + aircraft.lat + '\xB0' + '</div>' +
+    var contentString = '<div class ="infobox">' +
+        '<div id="latitude">' + '<b>Latitude:</b> ' + aircraft.lat + '\xB0' + '</div>' +
         '<div id="longitude">' + '<b>Longitude:</b> ' + aircraft.lon + '\xB0' + '</div>' +
         '<div id="altitude">' + '<b>Altitude:</b> ' + aircraft.alt + ' feet' + '</div>' +
         '<div id="heading">' + '<b>Heading:</b> ' + aircraft.trak + '\xB0' + '</div>' +
@@ -76,7 +77,8 @@ function addMarker(aircraft) {
         '<div id="call">' + '<b>Callsign:</b> ' + aircraft.call + '</div>' +
         '<div id="reg">' + '<b>Registration:</b> ' + aircraft.reg + '</div>' +
         '<div id="type">' + '<b>Aircraft:</b> ' + aircraft.type + '</div>' +
-        '<div id="country">' + '<b>Country:</b> ' + aircraft.cou + '</div>';
+        '<div id="country">' + '<b>Country:</b> ' + aircraft.cou + '</div>' +
+        '</div>';
 
     let infowindow = new google.maps.InfoWindow({
         content: contentString
