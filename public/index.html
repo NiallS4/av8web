@@ -2,16 +2,49 @@
 <html>
 <head>
     <title>av8 Flight Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCr-KBpApkCKUJ59NykX2LOHyGDEh0Sew&callback=initMap&libraries=&v=weekly" defer></script>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!--    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>-->
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-functions.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top" style="background-color: #3F51B5;">
+    <a class="navbar-brand" href="#">av8</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto nav-fill w-100">
+            <li class="nav-item active">
+                <button type="button" class="btn btn-outline-light">Home</button>
+            </li>
+            <li class="nav-item active">
+                <button type="button" class="btn btn-outline-light" onclick="refresh()">Refresh</button>
+            </li>
+            <li class="nav-item active">
+                <button type="button" class="btn btn-outline-light">Filter</button>
+            </li>
+            <li class="nav-item active">
+                <button type="button" class="btn btn-outline-light" onclick="getMilAircraft()">Show All Military Aircraft</button>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search for a Registration" aria-label="Search">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
 <div id="map"></div>
 
 <div id="test">
@@ -19,9 +52,9 @@
 </div>
 
 <script src="./app.js"></script>
-
-<!--&lt;!&ndash; The core Firebase JS SDK is always required and must be listed first &ndash;&gt;-->
-<!--<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>-->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 </body>
 </body>

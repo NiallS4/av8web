@@ -1,18 +1,20 @@
-/* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-#map {
-    height: 100%;
-}
-
-#test {
-    word-wrap: break-word;
-    margin: 2%;
-}
-
-/* Optional: Makes the sample page fill the window. */
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+    background:red;display: block;
+    position:absolute;
+    height:auto;
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+    margin-top:56px; /* adjust top margin to your header height */
 }

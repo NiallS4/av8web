@@ -12,22 +12,27 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-var functions = firebase.functions();
+const functions = firebase.functions();
 
-var mMap;
+let map;
+let markers = [];
+
 
 function initMap(listener) {
     const dublinAirport = { lat: 53.427, lng: -6.244 }
-    mMap = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
         center: dublinAirport,
-        zoom: 10
+        zoom: 10,
+        mapTypeId: google.maps.MapTypeId.TERRAIN,
+        controlSize: 32,
+        streetViewControl: false
     });
 
     let marker = new google.maps.Marker({
         position: dublinAirport,
         title: "Dublin Airport"
     });
-    marker.setMap(mMap);
+    marker.setMap(map);
 
     let contentString = '<div id="infobox">'+
         '<h1 id="firstHeading" class="firstHeading">Dublin Airport</h1>'+
@@ -42,11 +47,13 @@ function initMap(listener) {
 
     // noinspection JSDeprecatedSymbols
     marker.addListener('click', function() {
-        infowindow.open(mMap, marker);
+        infowindow.open(map, marker);
     });
+
+    getAircraft("53.427", "-6.244")
 }
 
-function addMarker(aircraft) {
+function addMarker(aircraft, isMil=false) {
     let loc = { lat: parseFloat(aircraft.lat), lng: parseFloat(aircraft.lon) };
 
     const planeIcon = {
@@ -55,12 +62,15 @@ function addMarker(aircraft) {
             "0 9 12 15 41 15 76 l0 55 80 58 c110 80 108 93 -10 57 -36 -11 -66 -20 -67\n" +
             "-20 -11 0 0 67 14 91 19 32 12 49 -13 29 -13 -12 -17 -11 -25 1 -8 12 -10 12\n" +
             "-19 -1 -7 -12 -12 -12 -22 -2 -16 16 -28 15 -28 0z",
-        fillColor: '#3F51B5',
+        fillColor: '#000000',
         fillOpacity: 1,
         anchor: new google.maps.Point(298, 311),
         strokeWeight: 0,
         scale: .1,
         rotation: parseFloat(aircraft.trak)
+    }
+    if(isMil === true) {
+        planeIcon.fillColor = '#506900';
     }
 
     let marker = new google.maps.Marker({
@@ -68,15 +78,15 @@ function addMarker(aircraft) {
         icon: planeIcon
     });
 
-    var contentString = '<div id="latitude">' + '<b>Latitude:</b> ' + aircraft.lat + '\xB0' + '</div>' +
-        '<div id="longitude">' + '<b>Longitude:</b> ' + aircraft.lon + '\xB0' + '</div>' +
-        '<div id="altitude">' + '<b>Altitude:</b> ' + aircraft.alt + ' feet' + '</div>' +
-        '<div id="heading">' + '<b>Heading:</b> ' + aircraft.trak + '\xB0' + '</div>' +
-        '<div id="speed">' + '<b>Speed:</b> ' + aircraft.spd + ' knots' + '</div>' +
-        '<div id="call">' + '<b>Callsign:</b> ' + aircraft.call + '</div>' +
-        '<div id="reg">' + '<b>Registration:</b> ' + aircraft.reg + '</div>' +
-        '<div id="type">' + '<b>Aircraft:</b> ' + aircraft.type + '</div>' +
-        '<div id="country">' + '<b>Country:</b> ' + aircraft.cou + '</div>';
+    var contentString = '<div id="latitude">' + '<p style ="font-weight: 700; display: inline;">Latitude:</p> ' + aircraft.lat + '\xB0' + '</div>' +
+        '<div id="longitude">' + '<p style ="font-weight: 700; display: inline;">Longitude:</p> ' + aircraft.lon + '\xB0' + '</div>' +
+        '<div id="altitude">' + '<p style ="font-weight: 700; display: inline;">Altitude:</p> ' + aircraft.alt + ' feet' + '</div>' +
+        '<div id="heading">' + '<p style ="font-weight: 700; display: inline;">Heading:</p> ' + aircraft.trak + '\xB0' + '</div>' +
+        '<div id="speed">' + '<p style ="font-weight: 700; display: inline;">Speed:</p> ' + aircraft.spd + ' knots' + '</div>' +
+        '<div id="call">' + '<p style ="font-weight: 700; display: inline;">Callsign:</p> ' + aircraft.call + '</div>' +
+        '<div id="reg">' + '<p style ="font-weight: 700; display: inline;">Registration:</p> ' + aircraft.reg + '</div>' +
+        '<div id="type">' + '<p style ="font-weight: 700; display: inline;">Aircraft:</p> ' + aircraft.type + '</div>' +
+        '<div id="country">' + '<p style ="font-weight: 700; display: inline;">Country:</p> ' + aircraft.cou + '</div>';
 
     let infowindow = new google.maps.InfoWindow({
         content: contentString
@@ -84,16 +94,24 @@ function addMarker(aircraft) {
 
     // noinspection JSDeprecatedSymbols
     marker.addListener('click', function() {
-        console.log("OKK");
-        infowindow.open(mMap, marker);
+        infowindow.open(map, marker);
     });
 
-    marker.setMap(mMap);
+    markers.push(marker);
+    marker.setMap(map);
 }
 
-function getAircraft() {
+function clearMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
+
+function getAircraft(lat, lon) {
+    clearMarkers();
     const apiCall = firebase.functions().httpsCallable('apiCall');
-    apiCall({latitude: "53.427", longitude: "-6.244", dist: "100"}).then(function(result) {
+    apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
         // Read result of the Cloud Function.
         let response = result.data;
 
@@ -105,4 +123,22 @@ function getAircraft() {
     });
 }
 
-getAircraft();
+function refresh() {
+    let centreLoc = map.getCenter();
+    getAircraft(centreLoc.lat(), centreLoc.lng())
+}
+
+function getMilAircraft() {
+    clearMarkers();
+    const getMilitaryAircraft = firebase.functions().httpsCallable('getMilitaryAircraft');
+    getMilitaryAircraft().then(function(result) {
+        // Read result of the Cloud Function.
+        let response = result.data;
+
+        let aircraft = response.ac;
+        for(let i=0; i < aircraft.length; i++) {
+            console.log(aircraft[i])
+            addMarker(aircraft[i], true);
+        }
+    });
+}
