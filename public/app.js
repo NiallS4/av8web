@@ -16,6 +16,7 @@ const functions = firebase.functions();
 
 let map;
 let markers = [];
+let markerIndex = 0;
 
 
 function initMap(listener) {
@@ -46,8 +47,13 @@ function initMap(listener) {
     });
 
     // noinspection JSDeprecatedSymbols
-    marker.addListener('click', function() {
+    marker.addListener("click", function() {
         infowindow.open(map, marker);
+    });
+
+    // noinspection JSDeprecatedSymbols
+    google.maps.event.addListener(map, "click", function() {
+        infowindow.close();
     });
 
     getAircraft("53.427", "-6.244")
@@ -77,24 +83,32 @@ function addMarker(aircraft, isMil=false) {
         position: loc,
         icon: planeIcon
     });
-    
-    var contentString = '<div id="latitude">' + '<p style ="font-weight: 700; display: inline;">Latitude:</p> ' + aircraft.lat + '\xB0' + '</div>' +
-        '<div id="longitude">' + '<p style ="font-weight: 700; display: inline;">Longitude:</p> ' + aircraft.lon + '\xB0' + '</div>' +
-        '<div id="altitude">' + '<p style ="font-weight: 700; display: inline;">Altitude:</p> ' + aircraft.alt + ' feet' + '</div>' +
-        '<div id="heading">' + '<p style ="font-weight: 700; display: inline;">Heading:</p> ' + aircraft.trak + '\xB0' + '</div>' +
-        '<div id="speed">' + '<p style ="font-weight: 700; display: inline;">Speed:</p> ' + aircraft.spd + ' knots' + '</div>' +
-        '<div id="call">' + '<p style ="font-weight: 700; display: inline;">Callsign:</p> ' + aircraft.call + '</div>' +
-        '<div id="reg">' + '<p style ="font-weight: 700; display: inline;">Registration:</p> ' + aircraft.reg + '</div>' +
-        '<div id="type">' + '<p style ="font-weight: 700; display: inline;">Aircraft:</p> ' + aircraft.type + '</div>' +
-        '<div id="country">' + '<p style ="font-weight: 700; display: inline;">Country:</p> ' + aircraft.cou + '</div>';
+
+    var contentString = '<div id="latitude">' + '<p class="infoHeading" style="display: inline;">Latitude:</p> ' + aircraft.lat + '\xB0' + '</div>' +
+        '<div id="longitude">' + '<p class="infoHeading" style="display: inline;">Longitude:</p> ' + aircraft.lon + '\xB0' + '</div>' +
+        '<div id="altitude">' + '<p class="infoHeading" style="display: inline;">Altitude:</p> ' + aircraft.alt + ' feet' + '</div>' +
+        '<div id="heading">' + '<p class="infoHeading" style="display: inline;">Heading:</p> ' + aircraft.trak + '\xB0' + '</div>' +
+        '<div id="speed">' + '<p class="infoHeading" style="display: inline;">Speed:</p> ' + aircraft.spd + ' knots' + '</div>' +
+        '<div id="call">' + '<p class="infoHeading" style="display: inline;">Callsign:</p> ' + aircraft.call + '</div>' +
+        '<div id="reg">' + '<p class="infoHeading"  style="display: inline;">Registration:</p> ' + aircraft.reg + '</div>' +
+        '<div id="type">' + '<p class="infoHeading" style="display: inline;">Aircraft:</p> ' + aircraft.type + '</div>' +
+        '<div id="country">' + '<p class="infoHeading" style="display: inline;">Country:</p> ' + aircraft.cou + '</div>';
 
     let infowindow = new google.maps.InfoWindow({
-        content: contentString
+        content: contentString,
+        maxWidth: 250
     });
 
     // noinspection JSDeprecatedSymbols
-    marker.addListener('click', function() {
+    marker.addListener("click", function() {
+        infowindow.setZIndex(markerIndex);
+        markerIndex++;
         infowindow.open(map, marker);
+    });
+
+    // noinspection JSDeprecatedSymbols
+    google.maps.event.addListener(map, "click", function() {
+        infowindow.close();
     });
 
     markers.push(marker);
@@ -106,12 +120,13 @@ function clearMarkers() {
         markers[i].setMap(null);
     }
     markers = [];
+    markerIndex = 0;
 }
 
 function getAircraft(lat, lon) {
-    clearMarkers();
     const apiCall = firebase.functions().httpsCallable('apiCall');
     apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
+        clearMarkers();
         // Read result of the Cloud Function.
         let response = result.data;
 
@@ -129,9 +144,9 @@ function refresh() {
 }
 
 function getMilAircraft() {
-    clearMarkers();
     const getMilitaryAircraft = firebase.functions().httpsCallable('getMilitaryAircraft');
     getMilitaryAircraft().then(function(result) {
+        clearMarkers();
         // Read result of the Cloud Function.
         let response = result.data;
 
