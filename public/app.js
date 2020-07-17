@@ -129,8 +129,11 @@ function getAircraft(lat, lon) {
         clearMarkers();
         // Read result of the Cloud Function.
         let response = result.data;
-
         let aircraft = response.ac;
+
+        if(aircraft.length === null) {
+            alert("API response error");
+        }
         for(let i=0; i < aircraft.length; i++) {
             console.log(aircraft[i])
             addMarker(aircraft[i]);
@@ -149,8 +152,11 @@ function getMilAircraft() {
         clearMarkers();
         // Read result of the Cloud Function.
         let response = result.data;
-
         let aircraft = response.ac;
+
+        if(aircraft.length === null) {
+            alert("API response error");
+        }
         for(let i=0; i < aircraft.length; i++) {
             console.log(aircraft[i])
             addMarker(aircraft[i], true);
