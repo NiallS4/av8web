@@ -18,3 +18,7 @@ body {
     right:0;
     margin-top:56px; /* adjust top margin to your header height */
 }
+
+.infobox {
+    font-size: 16px;
+}

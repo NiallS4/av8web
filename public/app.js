@@ -77,7 +77,7 @@ function addMarker(aircraft, isMil=false) {
         position: loc,
         icon: planeIcon
     });
-
+    
     var contentString = '<div id="latitude">' + '<p style ="font-weight: 700; display: inline;">Latitude:</p> ' + aircraft.lat + '\xB0' + '</div>' +
         '<div id="longitude">' + '<p style ="font-weight: 700; display: inline;">Longitude:</p> ' + aircraft.lon + '\xB0' + '</div>' +
         '<div id="altitude">' + '<p style ="font-weight: 700; display: inline;">Altitude:</p> ' + aircraft.alt + ' feet' + '</div>' +
