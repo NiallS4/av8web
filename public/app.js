@@ -28,7 +28,7 @@ function initMap(listener) {
         streetViewControl: false
     });
 
-    // getAircraft("53.427", "-6.244")
+    getAircraft("53.427", "-6.244")
 }
 
 function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
