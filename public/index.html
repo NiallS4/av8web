@@ -16,95 +16,98 @@
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-functions.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-color: #3F51B5;">
-    <a class="navbar-brand" href="#"><img src="images/av8_logo.png" alt="av8 Logo" width="25%" height="25%">av8</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-color: #3F51B5;">
+<!--        <img src="images/av8_logo.png" alt="av8 Logo">-->
+        <a class="navbar-brand" href="#"><i class="fas fa-plane"></i> av8</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto nav-fill w-100 align-items-center">
-            <li class="nav-item active my-2 my-lg-0">
-                <button type="button" id="refresh" class="btn btn-link" onclick="refresh()"><i class="fas fa-sync"></i> Refresh</button>
-            </li>
-            <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShow" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Show All...
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <form id="squawkForm"  class="form-inline d-flex justify-content-center">
-                        <label class="text-center pb-2 mx-2" for="showSquawk">Show all Aircraft by Transponder ("Squawk") Code</label>
-                        <input class="form-control mx-2" type="search" id="showSquawk" placeholder="7500, 7600, 7700" aria-label="Search">
-                        <button class="btn btn-success mr-2 my-2" type="submit">Show</button>
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <div class="container d-flex justify-content-center">
-                        <label class="text-center pb-2 mx-2 mt-3">Show All Military Aircraft</label>
-                        <button type="button" class="btn btn-secondary" onclick="getMilAircraft()">Show</button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto nav-fill w-100 align-items-center">
+                <li class="nav-item active my-2 my-lg-0">
+                    <button type="button" id="refresh" class="btn btn-link" onclick="refresh()"><i class="fas fa-sync"></i> Refresh</button>
+                </li>
+                <li class="nav-item dropdown my-2 my-lg-0">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShow" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Show All...
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                        <form id="squawkForm"  class="form-inline d-flex justify-content-center">
+                            <label class="text-center pb-2 mx-2" for="showSquawk">Show all Aircraft by Transponder ("Squawk") Code</label>
+                            <input class="form-control mx-2" type="search" id="showSquawk" placeholder="7500, 7600, 7700" aria-label="Search">
+                            <button class="btn btn-success mr-2 my-2" type="submit">Show</button>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <div class="container d-flex justify-content-center">
+                            <label class="text-center pb-2 mx-2 mt-3">Show All Military Aircraft</label>
+                            <button type="button" class="btn btn-secondary" onclick="getMilAircraft()">Show</button>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Search
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                    <form id="regForm" class="form-inline d-flex justify-content-center mx-2 my-2">
-                        <label class="text-center pb-2 mx-2" for="searchByReg">Search for a Registration</label>
-                        <input class="form-control mx-2" type="text" id="searchByReg" placeholder="EI-DVM, N280WN" aria-label="Search" style="text-transform:uppercase">
-                        <button class="btn btn-success mr-2 my-2" id="regSearch" type="submit">Search</button>
-                        <!-- onclick="getReg(form.reg.value) -->
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <form id="icaoForm"  class="form-inline d-flex justify-content-center mx-2 my-2">
-                        <label class="text-center pb-2 mx-2" for="searchByIcao">Search for an ICAO Aircraft Identifier</label>
-                        <input class="form-control mx-2" type="search" id="searchByIcao" placeholder="4CA3D0, 800D0F" aria-label="Search" style="text-transform:uppercase">
-                        <button class="btn btn-success mr-2 my-2" type="submit">Search</button>
-                    </form>
-                </div>
-            </li>
-            <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFilter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filter
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <form id="filterTypeForm" class="form-inline d-flex justify-content-center">
-                        <label class="text-center pb-2 mx-2" for="filterByType">Filter by Aircraft Type ICAO code</label>
-                        <input class="form-control mx-2" type="search" id="filterByType" placeholder="A320, B744, BCS3, C172" aria-label="Search" style="text-transform:uppercase">
-                        <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <form id="filterOperatorForm" class="form-inline d-flex justify-content-center mx-2 my-2">
-                        <label class="text-center pb-2 mx-2" for="filterByOperator">Filter by Airline/Operator ICAO code</label>
-                        <input class="form-control mx-2" type="search" id="filterByOperator" placeholder="EIN, DLH, UAE, ANA" aria-label="Search" style="text-transform:uppercase">
-                        <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <form id="filterCountryForm" class="form-inline d-flex justify-content-center mx-2 my-2">
-                        <label class="text-center pb-2 mx-2" for="filterByCountry">Filter by Country of Registration</label>
-                        <input class="form-control mx-2" type="search" id="filterByCountry" placeholder="Ireland, United Kingdom" aria-label="Search">
-                        <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
-                    </form>
-                </div>
-            </li>
-            <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Heatmaps
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownHeatmap">
-                    <div class="container d-flex justify-content-center">
-                        <label class="text-center pb-2 mx-2 mt-3">Altitude Heatmap</label>
-                        <button type="button" class="btn btn-secondary" onclick="colourIconsByAlt(markers)">Show</button>
+                </li>
+                <li class="nav-item dropdown my-2 my-lg-0">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Search
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                        <form id="regForm" class="form-inline d-flex justify-content-center mx-2 my-2">
+                            <label class="text-center pb-2 mx-2" for="searchByReg">Search for a Registration</label>
+                            <input class="form-control mx-2" type="text" id="searchByReg" placeholder="EI-DVM, N280WN" aria-label="Search" style="text-transform:uppercase">
+                            <button class="btn btn-success mr-2 my-2" id="regSearch" type="submit">Search</button>
+                            <!-- onclick="getReg(form.reg.value) -->
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <form id="icaoForm"  class="form-inline d-flex justify-content-center mx-2 my-2">
+                            <label class="text-center pb-2 mx-2" for="searchByIcao">Search for an ICAO Aircraft Identifier</label>
+                            <input class="form-control mx-2" type="search" id="searchByIcao" placeholder="4CA3D0, 800D0F" aria-label="Search" style="text-transform:uppercase">
+                            <button class="btn btn-success mr-2 my-2" type="submit">Search</button>
+                        </form>
                     </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="container d-flex justify-content-center">
-                        <label class="text-center pb-2 mx-2 mt-3">Speed Heatmap</label>
-                        <button type="button" class="btn btn-secondary" onclick="colourIconsBySpd(markers)">Show</button>
+                </li>
+                <li class="nav-item dropdown my-2 my-lg-0">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFilter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Filter
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <form id="filterTypeForm" class="form-inline d-flex justify-content-center">
+                            <label class="text-center pb-2 mx-2" for="filterByType">Filter by Aircraft Type ICAO code</label>
+                            <input class="form-control mx-2" type="search" id="filterByType" placeholder="A320, B744, BCS3, C172" aria-label="Search" style="text-transform:uppercase">
+                            <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <form id="filterOperatorForm" class="form-inline d-flex justify-content-center mx-2 my-2">
+                            <label class="text-center pb-2 mx-2" for="filterByOperator">Filter by Airline/Operator ICAO code</label>
+                            <input class="form-control mx-2" type="search" id="filterByOperator" placeholder="EIN, DLH, UAE, ANA" aria-label="Search" style="text-transform:uppercase">
+                            <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
+                        </form>
+                        <div class="dropdown-divider"></div>
+                        <form id="filterCountryForm" class="form-inline d-flex justify-content-center mx-2 my-2">
+                            <label class="text-center pb-2 mx-2" for="filterByCountry">Filter by Country of Registration</label>
+                            <input class="form-control mx-2" type="search" id="filterByCountry" placeholder="Ireland, United Kingdom" aria-label="Search">
+                            <button class="btn btn-success mr-2 my-2" type="submit">Filter</button>
+                        </form>
                     </div>
-                </div>
-        </ul>
-    </div>
-</nav>
+                </li>
+                <li class="nav-item dropdown my-2 my-lg-0">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Heatmaps
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownHeatmap">
+                        <div class="container d-flex justify-content-center">
+                            <label class="text-center pb-2 mx-2 mt-3">Altitude Heatmap</label>
+                            <button type="button" class="btn btn-secondary" onclick="colourIconsByAlt(markers)">Show</button>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="container d-flex justify-content-center">
+                            <label class="text-center pb-2 mx-2 mt-3">Speed Heatmap</label>
+                            <button type="button" class="btn btn-secondary" onclick="colourIconsBySpd(markers)">Show</button>
+                        </div>
+                    </div>
+            </ul>
+        </div>
+    </nav>
+</div>
 
 <div id="map"></div>
 
