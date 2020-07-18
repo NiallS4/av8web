@@ -17,28 +17,34 @@ $("#filterCountryForm").submit(function(e) {
 });
 
 function filterByType(value) {
+    let ac = markers
     clearMarkers();
-    for(let i = 0; i < planes.length; i++) {
-        if(planes[i].type === value) {
-            addMarker(planes[i]);
+    for(let i = 0; i < ac.length; i++) {
+        let plane = ac[i].icon.title;
+        if(plane.type === value) {
+            addMarker(plane, "default", ac[i].icon.fillColor);
         }
     }
 }
 
 function filterByOperator(value) {
+    let ac = markers
     clearMarkers();
-    for(let i = 0; i < planes.length; i++) {
-        if(planes[i].opicao === value || planes[i].call.slice(0,3) === value) {
-            addMarker(planes[i]);
+    for(let i = 0; i < ac.length; i++) {
+        let plane = ac[i].icon.title;
+        if(plane.opicao === value || plane.call.slice(0,3) === value) {
+            addMarker(plane, "default", ac[i].icon.fillColor);
         }
     }
 }
 
 function filterByCountry(value) {
+    let ac = markers
     clearMarkers();
-    for(let i = 0; i < planes.length; i++) {
-        if(planes[i].cou === value) {
-            addMarker(planes[i]);
+    for(let i = 0; i < ac.length; i++) {
+        let plane = ac[i].icon.title;
+        if(plane.cou === value) {
+            addMarker(plane, "default", ac[i].icon.fillColor);
         }
     }
 }

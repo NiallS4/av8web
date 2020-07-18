@@ -2,6 +2,25 @@ const functions = firebase.functions();
 
 let planes = [];
 
+$("#squawkForm").submit(function(e) {
+    e.preventDefault();
+    let squawk = document.getElementById("showSquawk").value;
+    getSquawk(squawk);
+});
+
+$("#regForm").submit(function(e) {
+    e.preventDefault();
+    let reg = document.getElementById("searchByReg").value;
+    getReg(reg.toUpperCase());
+});
+
+$("#icaoForm").submit(function(e) {
+    e.preventDefault();
+    let icao = document.getElementById("searchByIcao").value;
+    getIcao(icao.toUpperCase());
+});
+
+
 function getAircraft(lat, lon) {
     const apiCall = functions.httpsCallable('apiCall');
     apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {

@@ -31,7 +31,7 @@ function initMap(listener) {
     // getAircraft("53.427", "-6.244")
 }
 
-function addMarker(aircraft, type="default") {
+function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
     let loc = { lat: parseFloat(aircraft.lat), lng: parseFloat(aircraft.lon) };
 
     let trak;
@@ -42,21 +42,23 @@ function addMarker(aircraft, type="default") {
         trak = parseFloat(aircraft.trak)
     }
 
+    if(type === "mil") {
+        colour = "rgb(80,105,0)";
+    }
+
     const planeIcon = {
         path: "M190 418 c0 -7 7 -22 15 -32 12 -16 22 -86 13 -86 -2 0 -32 9 -68 20\n" +
             "-118 36 -120 23 -10 -57 l80 -58 0 -55 c0 -35 6 -64 15 -76 15 -19 15 -19 30\n" +
             "0 9 12 15 41 15 76 l0 55 80 58 c110 80 108 93 -10 57 -36 -11 -66 -20 -67\n" +
             "-20 -11 0 0 67 14 91 19 32 12 49 -13 29 -13 -12 -17 -11 -25 1 -8 12 -10 12\n" +
             "-19 -1 -7 -12 -12 -12 -22 -2 -16 16 -28 15 -28 0z",
-        fillColor: '#000000',
+        fillColor: colour,
         fillOpacity: 1,
         anchor: new google.maps.Point(298, 311),
         strokeWeight: 0,
         scale: .1,
-        rotation: trak
-    }
-    if(type === "mil") {
-        planeIcon.fillColor = '#506900';
+        rotation: trak,
+        title: aircraft
     }
 
     let marker = new google.maps.Marker({
@@ -112,22 +114,4 @@ function refresh() {
     let centreLoc = map.getCenter();
     getAircraft(centreLoc.lat(), centreLoc.lng())
 }
-
-$("#squawkForm").submit(function(e) {
-    e.preventDefault();
-    let squawk = document.getElementById("showSquawk").value;
-    getSquawk(squawk);
-});
-
-$("#regForm").submit(function(e) {
-    e.preventDefault();
-    let reg = document.getElementById("searchByReg").value;
-    getReg(reg.toUpperCase());
-});
-
-$("#icaoForm").submit(function(e) {
-    e.preventDefault();
-    let icao = document.getElementById("searchByIcao").value;
-    getIcao(icao.toUpperCase());
-});
 

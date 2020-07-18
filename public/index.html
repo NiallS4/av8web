@@ -17,7 +17,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-color: #3F51B5;">
-    <a class="navbar-brand" href="#">av8</a>
+    <a class="navbar-brand" href="#"><img src="images/av8_logo.png" alt="av8 Logo" width="25%" height="25%">av8</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,7 +28,7 @@
                 <button type="button" id="refresh" class="btn btn-link" onclick="refresh()"><i class="fas fa-sync"></i> Refresh</button>
             </li>
             <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShow" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Show All...
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
@@ -40,12 +40,12 @@
                     <div class="dropdown-divider"></div>
                     <div class="container d-flex justify-content-center">
                         <label class="text-center pb-2 mx-2 mt-3">Show All Military Aircraft</label>
-                        <button type="button" class="btn btn-success" onclick="getMilAircraft()">Show</button>
+                        <button type="button" class="btn btn-secondary" onclick="getMilAircraft()">Show</button>
                     </div>
                 </div>
             </li>
             <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Search
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
@@ -64,7 +64,7 @@
                 </div>
             </li>
             <li class="nav-item dropdown my-2 my-lg-0">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFilter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Filter
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
@@ -87,6 +87,21 @@
                     </form>
                 </div>
             </li>
+            <li class="nav-item dropdown my-2 my-lg-0">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Heatmaps
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownHeatmap">
+                    <div class="container d-flex justify-content-center">
+                        <label class="text-center pb-2 mx-2 mt-3">Altitude Heatmap</label>
+                        <button type="button" class="btn btn-secondary" onclick="colourIconsByAlt(markers)">Show</button>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="container d-flex justify-content-center">
+                        <label class="text-center pb-2 mx-2 mt-3">Speed Heatmap</label>
+                        <button type="button" class="btn btn-secondary" onclick="colourIconsBySpd(markers)">Show</button>
+                    </div>
+                </div>
         </ul>
     </div>
 </nav>
@@ -96,6 +111,7 @@
 <script src="./app.js"></script>
 <script src="./apiCaller.js"></script>
 <script src="./filter.js"></script>
+<script src="./heatmap.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
