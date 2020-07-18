@@ -73,14 +73,14 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                     <form id="regForm" class="form-inline d-flex justify-content-center mx-2 my-2">
                         <label class="text-center pb-2 mx-2" for="searchByReg">Search for a Registration</label>
-                        <input class="form-control mx-2" type="text" id="searchByReg" name="reg" placeholder="EI-DVM, N280WN" aria-label="Search">
+                        <input class="form-control mx-2" type="text" id="searchByReg" name="reg" placeholder="EI-DVM, N280WN" aria-label="Search" style="text-transform:uppercase">
                         <button class="btn btn-success mr-2 my-2" id="regSearch" type="submit">Search</button>
                         <!-- onclick="getReg(form.reg.value) -->
                     </form>
                     <div class="dropdown-divider"></div>
-                    <form class="form-inline d-flex justify-content-center mx-2 my-2">
+                    <form id="icaoForm"  class="form-inline d-flex justify-content-center mx-2 my-2">
                         <label class="text-center pb-2 mx-2" for="searchByIcao">Search for an ICAO Aircraft Identifier</label>
-                        <input class="form-control mx-2" type="search" id="searchByIcao" placeholder="4CA3D0, 800D0F" aria-label="Search">
+                        <input class="form-control mx-2" type="search" id="searchByIcao" placeholder="4CA3D0, 800D0F" aria-label="Search" style="text-transform:uppercase">
                         <button class="btn btn-success mr-2 my-2" type="submit">Search</button>
                     </form>
                 </div>
@@ -93,6 +93,7 @@
 <div id="map"></div>
 
 <script src="./app.js"></script>
+<script src="./apiCaller.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

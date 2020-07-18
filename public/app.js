@@ -115,7 +115,7 @@ function addMarker(aircraft, type="default") {
     markers.push(marker);
     marker.setMap(map);
 
-    if(type === "reg") {
+    if(type === "single") {
         map.setCenter(loc);
     }
 }
@@ -133,65 +133,15 @@ function refresh() {
     getAircraft(centreLoc.lat(), centreLoc.lng())
 }
 
-function getAircraft(lat, lon) {
-    const apiCall = firebase.functions().httpsCallable('apiCall');
-    apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
-        clearMarkers();
-        // Read result of the Cloud Function.
-        let response = result.data;
-        let aircraft = response.ac;
-
-        try {
-            for(let i=0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i]);
-            }
-        }
-        catch(err) {
-            alert("API response error. Either there are no aircraft being tracked with 100nm of the current location or there was an error with the API.")
-        }
-
-    });
-}
-
-function getMilAircraft() {
-    const getMilitaryAircraft = firebase.functions().httpsCallable('getMilitaryAircraft');
-    getMilitaryAircraft().then(function(result) {
-        clearMarkers();
-        // Read result of the Cloud Function.
-        let response = result.data;
-        let aircraft = response.ac;
-
-        try {
-            for(let i=0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i], "mil");
-            }
-        }
-        catch(err) {
-            alert("API response error. Either there are no aircraft being tracked with 100nm of the current location or there was an error with the API.")
-        }
-    });
-}
-
 $("#regForm").submit(function(e) {
     e.preventDefault();
     let reg = document.getElementById("searchByReg").value;
-    getReg(reg);
+    getReg(reg.toUpperCase());
 });
 
-function getReg(value) {
-    const getAircraftByReg = firebase.functions().httpsCallable('getAircraftByReg');
-    getAircraftByReg({registration: value}).then(function (result) {
-        clearMarkers();
-        // Read result of the Cloud Function.
-        let response = result.data;
-        console.log(response);
-        let aircraft = response.ac;
-        for (let i = 0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i], "reg");
-        }
-    });
-    return false;
-}
+$("#icaoForm").submit(function(e) {
+    e.preventDefault();
+    let icao = document.getElementById("searchByIcao").value;
+    getIcao(icao.toUpperCase());
+});
+
