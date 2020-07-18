@@ -36,3 +36,13 @@ body {
     font-size: 1.25em;
     color: #f8f9fa;
 }
+
+.fas {
+    padding: 5px;
+}
+
+#refresh {
+    font-size: 1.25em;
+    color: #f8f9fa;
+    text-decoration: none;
+}

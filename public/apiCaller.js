@@ -1,5 +1,7 @@
 const functions = firebase.functions();
 
+let planes = [];
+
 function getAircraft(lat, lon) {
     const apiCall = functions.httpsCallable('apiCall');
     apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
@@ -13,6 +15,7 @@ function getAircraft(lat, lon) {
                 console.log(aircraft[i])
                 addMarker(aircraft[i]);
             }
+            planes = aircraft;
         }
         catch(err) {
             alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
@@ -34,6 +37,7 @@ function getMilAircraft() {
                 addMarker(aircraft[i], "mil");
             }
             map.setZoom(3);
+            planes = aircraft;
         }
         catch(err) {
             alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
@@ -55,6 +59,7 @@ function getReg(value) {
                 console.log(aircraft[i])
                 addMarker(aircraft[i], "single");
             }
+            planes = aircraft;
         }
         catch(err) {
             alert("The aircraft with registration '" + value + "' was not found.")
@@ -77,6 +82,7 @@ function getIcao(value) {
                 console.log(aircraft[i])
                 addMarker(aircraft[i], "single");
             }
+            planes = aircraft;
         }
         catch(err) {
                 alert("The aircraft with ICAO code '" + value + "' was not found.")
@@ -99,6 +105,7 @@ function getSquawk(value) {
                 addMarker(aircraft[i]);
             }
             map.setZoom(3);
+            planes = aircraft;
         }
         catch(err) {
             alert("No aircraft with transponder code '" + value + "' was not found.")

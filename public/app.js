@@ -34,6 +34,14 @@ function initMap(listener) {
 function addMarker(aircraft, type="default") {
     let loc = { lat: parseFloat(aircraft.lat), lng: parseFloat(aircraft.lon) };
 
+    let trak;
+    if(aircraft.trak === "") {
+        trak = 0.0
+    }
+    else {
+        trak = parseFloat(aircraft.trak)
+    }
+
     const planeIcon = {
         path: "M190 418 c0 -7 7 -22 15 -32 12 -16 22 -86 13 -86 -2 0 -32 9 -68 20\n" +
             "-118 36 -120 23 -10 -57 l80 -58 0 -55 c0 -35 6 -64 15 -76 15 -19 15 -19 30\n" +
@@ -45,7 +53,7 @@ function addMarker(aircraft, type="default") {
         anchor: new google.maps.Point(298, 311),
         strokeWeight: 0,
         scale: .1,
-        rotation: parseFloat(aircraft.trak)
+        rotation: trak
     }
     if(type === "mil") {
         planeIcon.fillColor = '#506900';
@@ -122,5 +130,4 @@ $("#icaoForm").submit(function(e) {
     let icao = document.getElementById("searchByIcao").value;
     getIcao(icao.toUpperCase());
 });
-
 
