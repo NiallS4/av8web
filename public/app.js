@@ -174,9 +174,14 @@ function getMilAircraft() {
     });
 }
 
+$("#regForm").submit(function(e) {
+    e.preventDefault();
+    let reg = document.getElementById("searchByReg").value;
+    getReg(reg);
+});
+
 function getReg(value) {
     const getAircraftByReg = firebase.functions().httpsCallable('getAircraftByReg');
-    console.log(value);
     getAircraftByReg({registration: value}).then(function (result) {
         clearMarkers();
         // Read result of the Cloud Function.
@@ -188,4 +193,5 @@ function getReg(value) {
                 addMarker(aircraft[i], "reg");
         }
     });
+    return false;
 }
