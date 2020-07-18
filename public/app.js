@@ -12,7 +12,6 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-const functions = firebase.functions();
 
 let map;
 let markers = [];
@@ -23,37 +22,10 @@ function initMap(listener) {
     const dublinAirport = { lat: 53.427, lng: -6.244 }
     map = new google.maps.Map(document.getElementById("map"), {
         center: dublinAirport,
-        zoom: 10,
+        zoom: 8,
         mapTypeId: google.maps.MapTypeId.TERRAIN,
         controlSize: 32,
         streetViewControl: false
-    });
-
-    let marker = new google.maps.Marker({
-        position: dublinAirport,
-        title: "Dublin Airport"
-    });
-    marker.setMap(map);
-
-    let contentString = '<div id="infobox">'+
-        '<h1 id="firstHeading" class="firstHeading">Dublin Airport</h1>'+
-        '<div id="infoboxContent">'+
-        '<p>Dublin Airport | DUB | EIDW</p>'+
-        '</div>'+
-        '</div>';
-
-    let infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    // noinspection JSDeprecatedSymbols
-    marker.addListener("click", function() {
-        infowindow.open(map, marker);
-    });
-
-    // noinspection JSDeprecatedSymbols
-    google.maps.event.addListener(map, "click", function() {
-        infowindow.close();
     });
 
     // getAircraft("53.427", "-6.244")
@@ -133,6 +105,12 @@ function refresh() {
     getAircraft(centreLoc.lat(), centreLoc.lng())
 }
 
+$("#squawkForm").submit(function(e) {
+    e.preventDefault();
+    let squawk = document.getElementById("showSquawk").value;
+    getSquawk(squawk);
+});
+
 $("#regForm").submit(function(e) {
     e.preventDefault();
     let reg = document.getElementById("searchByReg").value;
@@ -144,4 +122,5 @@ $("#icaoForm").submit(function(e) {
     let icao = document.getElementById("searchByIcao").value;
     getIcao(icao.toUpperCase());
 });
+
 
