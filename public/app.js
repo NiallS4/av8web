@@ -56,10 +56,10 @@ function initMap(listener) {
         infowindow.close();
     });
 
-    getAircraft("53.427", "-6.244")
+    // getAircraft("53.427", "-6.244")
 }
 
-function addMarker(aircraft, isMil=false) {
+function addMarker(aircraft, type="default") {
     let loc = { lat: parseFloat(aircraft.lat), lng: parseFloat(aircraft.lon) };
 
     const planeIcon = {
@@ -75,7 +75,7 @@ function addMarker(aircraft, isMil=false) {
         scale: .1,
         rotation: parseFloat(aircraft.trak)
     }
-    if(isMil === true) {
+    if(type === "mil") {
         planeIcon.fillColor = '#506900';
     }
 
@@ -92,6 +92,7 @@ function addMarker(aircraft, isMil=false) {
         '<div id="call">' + '<p class="infoHeading" style="display: inline;">Callsign:</p> ' + aircraft.call + '</div>' +
         '<div id="reg">' + '<p class="infoHeading"  style="display: inline;">Registration:</p> ' + aircraft.reg + '</div>' +
         '<div id="type">' + '<p class="infoHeading" style="display: inline;">Aircraft:</p> ' + aircraft.type + '</div>' +
+        '<div id="squawk">' + '<p class="infoHeading" style="display: inline;">Squawk:</p> ' + aircraft.sqk + '</div>' +
         '<div id="country">' + '<p class="infoHeading" style="display: inline;">Country:</p> ' + aircraft.cou + '</div>';
 
     let infowindow = new google.maps.InfoWindow({
@@ -113,6 +114,10 @@ function addMarker(aircraft, isMil=false) {
 
     markers.push(marker);
     marker.setMap(map);
+
+    if(type === "reg") {
+        map.setCenter(loc);
+    }
 }
 
 function clearMarkers() {
@@ -123,6 +128,11 @@ function clearMarkers() {
     markerIndex = 0;
 }
 
+function refresh() {
+    let centreLoc = map.getCenter();
+    getAircraft(centreLoc.lat(), centreLoc.lng())
+}
+
 function getAircraft(lat, lon) {
     const apiCall = firebase.functions().httpsCallable('apiCall');
     apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
@@ -131,19 +141,17 @@ function getAircraft(lat, lon) {
         let response = result.data;
         let aircraft = response.ac;
 
-        if(aircraft.length === null) {
-            alert("API response error");
+        try {
+            for(let i=0; i < aircraft.length; i++) {
+                console.log(aircraft[i])
+                addMarker(aircraft[i]);
+            }
         }
-        for(let i=0; i < aircraft.length; i++) {
-            console.log(aircraft[i])
-            addMarker(aircraft[i]);
+        catch(err) {
+            alert("API response error. Either there are no aircraft being tracked with 100nm of the current location or there was an error with the API.")
         }
-    });
-}
 
-function refresh() {
-    let centreLoc = map.getCenter();
-    getAircraft(centreLoc.lat(), centreLoc.lng())
+    });
 }
 
 function getMilAircraft() {
@@ -154,12 +162,30 @@ function getMilAircraft() {
         let response = result.data;
         let aircraft = response.ac;
 
-        if(aircraft.length === null) {
-            alert("API response error");
+        try {
+            for(let i=0; i < aircraft.length; i++) {
+                console.log(aircraft[i])
+                addMarker(aircraft[i], "mil");
+            }
         }
-        for(let i=0; i < aircraft.length; i++) {
-            console.log(aircraft[i])
-            addMarker(aircraft[i], true);
+        catch(err) {
+            alert("API response error. Either there are no aircraft being tracked with 100nm of the current location or there was an error with the API.")
+        }
+    });
+}
+
+function getReg(value) {
+    const getAircraftByReg = firebase.functions().httpsCallable('getAircraftByReg');
+    console.log(value);
+    getAircraftByReg({registration: value}).then(function (result) {
+        clearMarkers();
+        // Read result of the Cloud Function.
+        let response = result.data;
+        console.log(response);
+        let aircraft = response.ac;
+        for (let i = 0; i < aircraft.length; i++) {
+                console.log(aircraft[i])
+                addMarker(aircraft[i], "reg");
         }
     });
 }

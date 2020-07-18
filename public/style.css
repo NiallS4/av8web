@@ -24,3 +24,8 @@ body {
     font-size: 1.2em;
     color: #3F51B5;
 }
+
+.navbar-dark .navbar-nav .nav-link {
+    font-size: 1.25em;
+    color: #f8f9fa;
+}
