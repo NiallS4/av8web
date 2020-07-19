@@ -67,7 +67,7 @@ function colourIconsBySpd(markers) {
         let p = m.icon.title
         let speed;
         if(p.spd !== null && p.spd !== "") {
-            speed = parseInt(p.alt)
+            speed = parseInt(p.spd)
         }
         else {
             speed = 0;
