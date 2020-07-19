@@ -14,10 +14,17 @@
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-functions.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
 </head>
-<body>
-<div class="container-fluid">
+<body onload="myFunction()">
+
+<div id="loader-content">
+    <h1><i class="fas fa-plane"></i> av8</h1>
+
+    <div id="loader"></div>
+</div>
+
+<div id="content" class="container-fluid animate-bottom" style="display:none;">
     <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-color: #3F51B5;">
-<!--        <img src="images/av8_logo.png" alt="av8 Logo">-->
+        <!--        <img src="images/av8_logo.png" alt="av8 Logo">-->
         <a class="navbar-brand" href="#"><i class="fas fa-plane"></i> av8</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -108,7 +115,8 @@
     </nav>
 </div>
 
-<div id="map"></div>
+<div id="map" class="animate-bottom" style="display:none;"></div>
+
 
 <script src="./app.js"></script>
 <script src="./apiCaller.js"></script>

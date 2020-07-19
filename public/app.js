@@ -28,7 +28,7 @@ function initMap(listener) {
         streetViewControl: false
     });
 
-    getAircraft("53.427", "-6.244")
+    // getAircraft("53.427", "-6.244")
 }
 
 function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
@@ -110,3 +110,16 @@ function refresh() {
     getAircraft(centreLoc.lat(), centreLoc.lng())
 }
 
+var myVar;
+
+function myFunction() {
+    myVar = setTimeout(showPage, 2000);
+}
+
+function showPage() {
+    document.getElementById("loader-content").style.display = "none";
+    document.getElementById("content").style.display = "block";
+    document.getElementById("map").style.display = "block";
+    document.getElementById("map").style.display = "block";
+    // document.body.style.backgroundColor = "white";
+}
