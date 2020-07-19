@@ -111,10 +111,10 @@ function refresh() {
     getAircraft(centreLoc.lat(), centreLoc.lng())
 }
 
-var myVar;
+let loading;
 
 function loader() {
-    myVar = setTimeout(showPage, 2000);}
+    loading = setTimeout(showPage, 2000);}
 
 function showPage() {
     document.getElementById("loader-content").style.display = "none";
