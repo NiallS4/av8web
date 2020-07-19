@@ -28,7 +28,7 @@ function initMap(listener) {
         streetViewControl: false
     });
 
-    // getAircraft("53.427", "-6.244")
+    getAircraft("53.427", "-6.244")
 }
 
 function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
@@ -56,7 +56,7 @@ function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
         fillOpacity: 1,
         anchor: new google.maps.Point(298, 311),
         strokeWeight: 0,
-        scale: .1,
+        scale: .075,
         rotation: trak,
         title: aircraft
     }
@@ -94,6 +94,7 @@ function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
 
     if(type === "single") {
         map.setCenter(loc);
+        map.setZoom(8);
     }
 }
 

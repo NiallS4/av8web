@@ -16,6 +16,10 @@ body {
     background-color: #3F51B5;
 }
 
+.icon-av8_logo:before {
+    content: "\e900";
+}
+
 img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
     max-width: none;
 }
@@ -38,7 +42,7 @@ img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
 }
 
 a.navbar-brand {
-    font-size: 1.5em;
+    font-size: 1.7em;
     font-weight: 700;
 }
 
@@ -108,5 +112,5 @@ h1 {
     text-align: center;
     color: #f8f9fa;
     font-weight: 700;
-    font-size: 8em;
+    font-size: 6em;
 }

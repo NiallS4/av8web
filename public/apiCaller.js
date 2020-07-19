@@ -55,18 +55,6 @@ function dbLookup(aircraft, type) {
     });
 }
 
-function getAircraft(lat, lon) {
-    const apiCall = functions.httpsCallable('apiCall');
-    apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
-        clearMarkers();
-        // Read result of the Cloud Function.
-        let response = result.data;
-        let aircraft = response.ac;
-
-        dbLookup(aircraft);
-    });
-}
-
 function addToMap(aircraft, type) {
     try {
         for(let i=0; i < aircraft.length; i++) {
@@ -79,6 +67,18 @@ function addToMap(aircraft, type) {
     catch(err) {
         alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
     }
+}
+
+function getAircraft(lat, lon) {
+    const apiCall = functions.httpsCallable('apiCall');
+    apiCall({latitude: lat, longitude: lon, dist: "100"}).then(function(result) {
+        clearMarkers();
+        // Read result of the Cloud Function.
+        let response = result.data;
+        let aircraft = response.ac;
+
+        dbLookup(aircraft);
+    });
 }
 
 function getMilAircraft() {
