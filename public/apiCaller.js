@@ -1,4 +1,5 @@
 const functions = firebase.functions();
+const db = firebase.firestore();
 
 let planes = [];
 
@@ -20,6 +21,39 @@ $("#icaoForm").submit(function(e) {
     getIcao(icao.toUpperCase());
 });
 
+function dbLookup(aircraft, type) {
+    const aircraftDocRef = db.collection("aircraft").doc("24MfkwHXUr0JJY2uWnb5");
+    const airlineDocRef = db.collection("airline").doc("lwQWka6rr11EwU2UZ2EC");
+
+    aircraftDocRef.get().then(function(doc) {
+        // console.log("Document data:", doc.data());
+        const data = doc.data();
+        let p;
+        for(p of aircraft) {
+            for(const key in data) {
+                const value = data[key];
+                if(p.type === key) {
+                    p.typeName = value;
+                }
+            }
+        }
+    });
+
+    airlineDocRef.get().then(function(doc) {
+        // console.log("Document data:", doc.data());
+        const data = doc.data();
+        let p;
+        for(p of aircraft) {
+            for(const key in data) {
+                const value = data[key];
+                if(p.opicao === key || p.call.slice(0,3) === key) {
+                    p.airlineName = value;
+                }
+            }
+        }
+        addToMap(aircraft, type);
+    });
+}
 
 function getAircraft(lat, lon) {
     const apiCall = functions.httpsCallable('apiCall');
@@ -29,17 +63,22 @@ function getAircraft(lat, lon) {
         let response = result.data;
         let aircraft = response.ac;
 
-        try {
-            for(let i=0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i]);
-            }
-            planes = aircraft;
-        }
-        catch(err) {
-            alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
-        }
+        dbLookup(aircraft);
     });
+}
+
+function addToMap(aircraft, type) {
+    try {
+        for(let i=0; i < aircraft.length; i++) {
+            console.log(aircraft[i]);
+            addMarker(aircraft[i], type);
+        }
+
+        planes = aircraft;
+    }
+    catch(err) {
+        alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
+    }
 }
 
 function getMilAircraft() {
@@ -50,17 +89,7 @@ function getMilAircraft() {
         let response = result.data;
         let aircraft = response.ac;
 
-        try {
-            for(let i=0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i], "mil");
-            }
-            map.setZoom(3);
-            planes = aircraft;
-        }
-        catch(err) {
-            alert("API response error. There may not be any aircraft being tracked with 100nm of the current location.")
-        }
+        dbLookup(aircraft, "mil");
     });
 }
 
@@ -73,16 +102,7 @@ function getReg(value) {
         console.log(response);
         let aircraft = response.ac;
 
-        try {
-            for (let i = 0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i], "single");
-            }
-            planes = aircraft;
-        }
-        catch(err) {
-            alert("The aircraft with registration '" + value + "' was not found.")
-        }
+        dbLookup(aircraft, "single")
 
     });
 }
@@ -96,16 +116,7 @@ function getIcao(value) {
         console.log(response);
         let aircraft = response.ac;
 
-        try {
-            for (let i = 0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i], "single");
-            }
-            planes = aircraft;
-        }
-        catch(err) {
-                alert("The aircraft with ICAO code '" + value + "' was not found.")
-            }
+        dbLookup(aircraft, "single")
     });
 }
 
@@ -118,16 +129,6 @@ function getSquawk(value) {
         console.log(response);
         let aircraft = response.ac;
 
-        try {
-            for (let i = 0; i < aircraft.length; i++) {
-                console.log(aircraft[i])
-                addMarker(aircraft[i]);
-            }
-            map.setZoom(3);
-            planes = aircraft;
-        }
-        catch(err) {
-            alert("No aircraft with transponder code '" + value + "' was not found.")
-        }
+        dbLookup(aircraft, "squawk")
     });
 }

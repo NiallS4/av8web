@@ -15,10 +15,8 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-img {
-    padding: 0 20px;
-    width: 5%;
-    height: 5%;
+img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
+    max-width: none;
 }
 
 .gm-style .gm-style-iw {
