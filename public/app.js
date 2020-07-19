@@ -28,7 +28,7 @@ function initMap(listener) {
         streetViewControl: false
     });
 
-    // getAircraft("53.427", "-6.244")
+    getAircraft("53.427", "-6.244")
 }
 
 function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
@@ -66,17 +66,7 @@ function addMarker(aircraft, type="default", colour="rgb(0,0,0)") {
         icon: planeIcon
     });
 
-    var contentString = '<div id="latitude">' + '<p class="infoHeading" style="display: inline;">Latitude:</p> ' + aircraft.lat + '\xB0' + '</div>' +
-        '<div id="longitude">' + '<p class="infoHeading" style="display: inline;">Longitude:</p> ' + aircraft.lon + '\xB0' + '</div>' +
-        '<div id="altitude">' + '<p class="infoHeading" style="display: inline;">Altitude:</p> ' + aircraft.alt + ' feet' + '</div>' +
-        '<div id="heading">' + '<p class="infoHeading" style="display: inline;">Heading:</p> ' + aircraft.trak + '\xB0' + '</div>' +
-        '<div id="speed">' + '<p class="infoHeading" style="display: inline;">Speed:</p> ' + aircraft.spd + ' knots' + '</div>' +
-        '<div id="airline">' + '<p class="infoHeading" style="display: inline;">Airline:</p> ' + aircraft.airlineName + '</div>' +
-        '<div id="call">' + '<p class="infoHeading" style="display: inline;">Callsign:</p> ' + aircraft.call + '</div>' +
-        '<div id="reg">' + '<p class="infoHeading"  style="display: inline;">Registration:</p> ' + aircraft.reg + '</div>' +
-        '<div id="type">' + '<p class="infoHeading" style="display: inline;">Aircraft:</p> ' + aircraft.typeName + ' (' + aircraft.type + ')' + '</div>' +
-        '<div id="squawk">' + '<p class="infoHeading" style="display: inline;">Squawk:</p> ' + aircraft.sqk + '</div>' +
-        '<div id="country">' + '<p class="infoHeading" style="display: inline;">Country:</p> ' + aircraft.cou + '</div>';
+    let contentString = formatter(aircraft);
 
     let infowindow = new google.maps.InfoWindow({
         content: contentString,
