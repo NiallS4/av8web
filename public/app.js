@@ -114,8 +114,7 @@ function refresh() {
 var myVar;
 
 function loader() {
-    myVar = setTimeout(showPage, 2000);
-}
+    myVar = setTimeout(showPage, 2000);}
 
 function showPage() {
     document.getElementById("loader-content").style.display = "none";

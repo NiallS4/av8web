@@ -2,9 +2,9 @@
        * element that contains the map. */
 #map {
     position: relative;
-    height: -moz-calc(100% - 62px);
-    height: -webkit-calc(100% - 62px);
-    height: calc(100% - 62px);
+    height: -moz-calc(100% - 66px);
+    height: -webkit-calc(100% - 66px);
+    height: calc(100% - 66px);
 }
 
 html,
@@ -14,6 +14,14 @@ body {
     padding: 0;
     font-family: 'Open Sans', sans-serif;
     background-color: #3F51B5;
+}
+
+h1 {
+    margin-top: 10%;
+    text-align: center;
+    color: #f8f9fa;
+    font-weight: 700;
+    font-size: 6em;
 }
 
 img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
@@ -57,20 +65,27 @@ a.navbar-brand {
     text-decoration: none;
 }
 
+
+/*Loader */
 #loader {
     position: absolute;
     left: 50%;
-    top: 60%;
+    top: 50%;
     z-index: 1;
     width: 120px;
     height: 120px;
-    margin: -75px 0 0 -75px;
+    margin: -50px 0 0 -50px;
     border: 16px solid #f3f3f3;;
     padding-top: 50px;
     border-radius: 50%;
     border-top: 16px solid #3498db;;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+}
+
+#loader-content {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 @-webkit-keyframes spin {
@@ -102,11 +117,39 @@ a.navbar-brand {
     to{ bottom:0; opacity:1 }
 }
 
-h1 {
-    margin-top: 10%;
-    padding-bottom: 50px;
-    text-align: center;
-    color: #f8f9fa;
-    font-weight: 700;
-    font-size: 6em;
+
+/* av8 Logo Icon */
+@font-face {
+    font-family: 'icomoon';
+    src:  url('./fonts/icomoon.eot');
+    src:  url('./fonts/icomoon.eot') format('embedded-opentype'),
+    url('./fonts/icomoon.ttf') format('truetype'),
+    url('./fonts/icomoon.woff') format('woff'),
+    url('./fonts/icomoon.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon', serif !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-av8_logo {
+    content: "\e900";
+    padding-right: 5px;
+}
+
+.icon-av8_logo:before {
+    content: "\e900";
 }
