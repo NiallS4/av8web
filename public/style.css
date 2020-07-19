@@ -16,10 +16,6 @@ body {
     background-color: #3F51B5;
 }
 
-.icon-av8_logo:before {
-    content: "\e900";
-}
-
 img[src*="gstatic.com/"], img[src*="googleapis.com/"] {
     max-width: none;
 }
@@ -69,10 +65,10 @@ a.navbar-brand {
     width: 120px;
     height: 120px;
     margin: -75px 0 0 -75px;
-    border: 16px solid #f3f3f3;
+    border: 16px solid #f3f3f3;;
     padding-top: 50px;
     border-radius: 50%;
-    border-top: 16px solid #3498db;
+    border-top: 16px solid #3498db;;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }

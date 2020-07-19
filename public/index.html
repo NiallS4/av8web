@@ -10,24 +10,24 @@
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCr-KBpApkCKUJ59NykX2LOHyGDEh0Sew&callback=initMap&libraries=&v=weekly" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCr-KBpApkCKUJ59NykX2LOHyGDEh0Sew&libraries=&v=weekly" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-functions.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
 </head>
-<body onload="myFunction()">
+<!--Manually initialising map with loader so planes appear immediately-->
+<body onload="loader(); initMap()">
 
 <div id="loader-content">
-    <h1><span class="icon-av8_logo"></span> av8</h1>
-
+    <h1><i class="icon-av8_logo"></i> av8</h1>
     <div id="loader"></div>
 </div>
 
 <div id="content" class="container-fluid animate-bottom" style="display:none;">
     <nav class="navbar navbar-expand-lg navbar-dark" role="navigation" style="background-color: #3F51B5;">
-        <a class="navbar-brand" href="#"><span class="icon-av8_logo"></span> av8</a>
+        <a class="navbar-brand" href="#"><i class="icon-av8_logo"></i> av8</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,7 +39,7 @@
                 </li>
                 <li class="nav-item dropdown my-2 my-lg-0">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownShow" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Show All...
+                        <i class="fas fa-eye"></i> Show All...
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
                         <form id="squawkForm"  class="form-inline d-flex justify-content-center">
@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-item dropdown my-2 my-lg-0">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSearch" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Search
+                        <i class="fas fa-search"></i> Search
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
                         <form id="regForm" class="form-inline d-flex justify-content-center mx-2 my-2">
@@ -75,7 +75,7 @@
                 </li>
                 <li class="nav-item dropdown my-2 my-lg-0">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFilter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filter
+                        <i class="fas fa-filter"></i> Filter
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
                         <form id="filterTypeForm" class="form-inline d-flex justify-content-center">
@@ -99,7 +99,7 @@
                 </li>
                 <li class="nav-item dropdown my-2 my-lg-0">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Heatmaps
+                        <i class="fas fa-layer-group"></i> Heatmaps
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownHeatmap">
                         <div class="container d-flex justify-content-center">

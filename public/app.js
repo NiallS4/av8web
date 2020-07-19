@@ -113,7 +113,7 @@ function refresh() {
 
 var myVar;
 
-function myFunction() {
+function loader() {
     myVar = setTimeout(showPage, 2000);
 }
 
